@@ -1,6 +1,7 @@
 package tn.esb.storeApi.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 
 @Getter //genere tous les getters pour tous les attributs lors du runtime
 @Setter //de meme pour les setters
+@RequiredArgsConstructor //genère un constructeur avec les attributs marqués par @NonNull comme paramètres
 @NoArgsConstructor //genere un constructeur non parametré lors du runtime
 //@AllArgsConstructor //genere un constructeur avec tous les attributs comme paramètres lors du runtime
 //@EqualsAndHashCode //permet de redifinir les méthodes de la classe Object : equals( compare deux objets) et  hashCode (gnere un code hashage)
@@ -26,11 +28,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // la première valeur de clé
     //attribuée sera 1, la 2ème 2, ....
     private Long id;
+    @NonNull // l'attribut 'name' est obligatoire
     @EqualsAndHashCode.Include
+    @Column(length =50)
     private String name;
+    @NonNull // L'attribut 'price' est aussi obligatoire'
+    @Column(name="productPrice",scale=5,precision = 2)
     private BigDecimal price;
+   // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") //date et temps
+    @JsonFormat(pattern = "yyyy-MM-dd") //fixer format de date
+    @NonNull
     @EqualsAndHashCode.Include
     private LocalDate fabricationDate;
+    @NonNull
     private LocalDate expirationDate;
     private String description;
     private int stock;
