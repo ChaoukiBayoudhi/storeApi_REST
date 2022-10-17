@@ -28,4 +28,6 @@ public class Address {
     @NonNull
     @EqualsAndHashCode.Include
     private int postalCode;
+    @OneToOne(mappedBy = "customerAddress")
+    private Customer customer;
 }

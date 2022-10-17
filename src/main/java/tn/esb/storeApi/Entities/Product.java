@@ -47,4 +47,9 @@ public class Product {
     @Lob
     private byte[] image;
 
+    //relation entre Product et Provider (*-1)
+    @ManyToOne
+    @JoinColumn(name="provider_id",referencedColumnName = "id")
+    private  Provider productProvider;
+
 }

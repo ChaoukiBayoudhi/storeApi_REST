@@ -4,10 +4,7 @@ import lombok.*;
 import org.springframework.lang.NonNull;
 import tn.esb.storeApi.Enumerations.CustomerType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -27,4 +24,10 @@ public class Customer {
     @EqualsAndHashCode.Include
     private String lastName;
     private CustomerType type;
+
+    //Relatiobn entre Customer et address (une relation 1-1)
+    @OneToOne
+    @JoinColumn(name = "address_id",referencedColumnName = "id")//permet de specifier la clé étangère address_id provenant
+    //de l'entité address.
+    private Address customerAddress;
 }
