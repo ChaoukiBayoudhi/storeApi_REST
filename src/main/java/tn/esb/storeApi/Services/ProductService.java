@@ -34,4 +34,9 @@ public class ProductService {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(res.get());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There is no product available with id = " + id);
     }
+
+    public ResponseEntity<?> addProduct(Product product)
+    {
+
+    }
 }
