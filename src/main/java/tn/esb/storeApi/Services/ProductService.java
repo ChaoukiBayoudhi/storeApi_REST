@@ -34,9 +34,41 @@ public class ProductService {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(res.get());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There is no product available with id = " + id);
     }
-
+    //1ère méthode
     public ResponseEntity<?> addProduct(Product product)
     {
+        //recuperer tous les produits
+        List<Product> res= repository.findAll();
+        //chercher s'il existe un produit ayant le meme nom dejà dans la BD.
+        int i=0;
+        boolean found= false;
+        while(i<res.size() && !found)
+        {
+            if(res.get(i).getName().equalsIgnoreCase(product.getName()))
+                found=true;
+            else
+                i++;
+        }
+        Product p;
+        if(!found) //ajouter le nouveau produit
+        {
+            p=repository.save(product);
+            return ResponseEntity.status(HttpStatus.CREATED).body(p);
+        }
+        //si le produit existe, on augmente juste le stock
+        int oldStock=res.get(i).getStock();
+        res.get(i).setStock(oldStock+ product.getStock());
+        //mise à jour du produit dans la base de données
+        p=repository.save(res.get(i));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(p);
+    }
 
+    public ResponseEntity<?> deleteProduct(Long id)
+    {
+        Optional<Product> res= repository.findById(id);
+        if (res.isEmpty())
+            return ResponseEntity.notFound().build();
+        repository.deleteById(id);
+        return ResponseEntity.accepted().build();
     }
 }

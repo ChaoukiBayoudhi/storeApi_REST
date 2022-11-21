@@ -2,12 +2,11 @@ package tn.esb.storeApi.Web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tn.esb.storeApi.Entities.Product;
 import tn.esb.storeApi.Services.ProductService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,5 +21,15 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public ResponseEntity<?> getOneProduct(@PathVariable  Long id) {
         return service.getProduct(id);
+    }
+    @PostMapping("/add")
+    public ResponseEntity<?> addOneProduct(@Valid @RequestBody Product product)
+    {
+        return service.addProduct(product);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> removeOneProduct(@PathVariable Long id)
+    {
+        return service.deleteProduct(id);
     }
 }
