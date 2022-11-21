@@ -15,6 +15,10 @@ public class ProductService {
 
     public List<Product> getAll()
     {
+        return getRepositoryAll();
+    }
+
+    private List<Product> getRepositoryAll() {
         return repository.findAll();
     }
 
