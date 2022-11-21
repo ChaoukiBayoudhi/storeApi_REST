@@ -1,6 +1,7 @@
 package tn.esb.storeApi.Web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping("/all")
-    public List<Product> getProducts() {
+    public ResponseEntity<?> getProducts() {
         return service.getAll();
     }
     @GetMapping("/product/{id}")
