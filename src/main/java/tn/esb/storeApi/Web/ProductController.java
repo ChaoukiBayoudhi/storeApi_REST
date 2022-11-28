@@ -32,4 +32,9 @@ public class ProductController {
     {
         return service.deleteProduct(id);
     }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateOneProduct(@PathVariable Long id, @Valid @RequestBody Product product)
+    {
+        return service.updateProduct(id,product);
+    }
 }

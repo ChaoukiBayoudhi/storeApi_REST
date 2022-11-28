@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tn.esb.storeApi.Entities.Product;
+import tn.esb.storeApi.Entities.Provider;
 import tn.esb.storeApi.Repositories.ProductRepository;
 
 import java.util.List;
@@ -70,5 +71,35 @@ public class ProductService {
             return ResponseEntity.notFound().build();
         repository.deleteById(id);
         return ResponseEntity.accepted().build();
+    }
+
+    public ResponseEntity<?> updateProduct(Long id,Product newProduct)
+    {
+        Optional<Product> res= repository.findById(id);
+        if (res.isEmpty())
+            //return ResponseEntity.notFound().build();
+            //ou bien
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There is no such product with id = " + id);
+        Product p=res.get();//recupere le produit pour le modifier
+        //mise a jour des differents champs du produit
+        p.setName(newProduct.getName());
+        p.setDescription(newProduct.getDescription());
+        p.setPrice(newProduct.getPrice());
+        p.setStock(newProduct.getStock());
+        p.setFabricationDate(newProduct.getFabricationDate());
+        p.setExpirationDate(newProduct.getExpirationDate());
+        //mise à jour du provider
+        Provider pv=newProduct.getProductProvider();
+        if(pv!=null) {
+            p.getProductProvider().setName(pv.getName());
+            p.getProductProvider().setEmail(pv.getEmail());
+            p.getProductProvider().setTelephoneNumber(pv.getTelephoneNumber());
+            //...
+        }
+
+        repository.save(p);//update product instance on the database
+        //return ResponseEntity.accepted().build();
+        //ou bien
+        return  ResponseEntity.status(HttpStatus.ACCEPTED).body(p);
     }
 }

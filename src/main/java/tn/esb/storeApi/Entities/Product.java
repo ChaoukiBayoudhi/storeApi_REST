@@ -2,6 +2,7 @@ package tn.esb.storeApi.Entities;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,10 +42,13 @@ public class Product {
     @EqualsAndHashCode.Include
     private LocalDate fabricationDate;
     @NonNull
+    //@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss") //si le type est LocalDateTime
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate expirationDate;
     private String description;
     private int stock;
     @Lob
+    @JsonIgnore //ne pas serialiser l'image en json format
     private byte[] image;
 
     //relation entre Product et Provider (*-1)
